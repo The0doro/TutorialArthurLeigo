@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trabalho-front</title>
+</head>
+<body>
+  <script>
+    // Definição das classes Pessoa, Professor, Aluno e Turma
+
+    class Pessoa {
+      constructor(cpf, nome) {
+        this.cpf = cpf;
+        this.nome = nome;
+      }
+    }
+
+    class Professor extends Pessoa {
+      constructor(cpf, nome, area, telefone) {
+        super(cpf, nome);
+        this.area = area;
+        this.telefone = telefone;
+      }
+    }
+
+    class Aluno extends Pessoa {
+      constructor(cpf, nome, matricula) {
+        super(cpf, nome);
+        this.matricula = matricula;
+      }
+    }
+
+    class Turma {
+      constructor(professor, alunos, identificacao) {
+        this.professor = professor;
+        this.alunos = alunos;
+        this.identificacao = identificacao;
+      }
+
+      imprimeDados() {
+        console.log('Identificação da Turma:', this.identificacao);
+        console.log('Professor:', this.professor.nome);
+        console.log('Área do Professor:', this.professor.area);
+        console.log('Telefone do Professor:', this.professor.telefone);
+        console.log('Alunos:');
+        for (let aluno of this.alunos) {
+          console.log('  - Nome:', aluno.nome);
+          console.log('    Matrícula:', aluno.matricula);
+        }
+      }
+    }
+
+    // Criação de objetos Professores
+
+    const professor1 = new Professor('12345678901', 'Prof. Bicca', 'Educação físicia', '987654321');
+    const professor2 = new Professor('98765432101', 'Prof. Carol', 'História', '123456789');
+
+    // Criação de objetos Alunos
+
+    const alunos = [
+      new Aluno('111111111', 'Arthur', '12345'),
+      new Aluno('222222222', 'Theo', '12346'),
+      new Aluno('333333333', 'João Pedro', '12347'),
+      new Aluno('444444444', 'Arthur Duarte', '123458'),
+      new Aluno('555555555', 'João Roberto', '123459'),
+      new Aluno('666666666', 'Fulano ', '123460')
+    ];
+
+    // Criação de objetos Turmas
+
+    const turma1 = new Turma(professor1, alunos.slice(0, 4), 'Turma A');
+    const turma2 = new Turma(professor2, alunos.slice(4), 'Turma B');
+
+    // Exibição na página HTML
+
+    const outputElement = document.body;
+
+    const createTextNode = (text) => {
+      const node = document.createTextNode(text);
+      return node;
+    };
+
+    const createParagraph = (text) => {
+      const p = document.createElement('p');
+      p.appendChild(createTextNode(text));
+      return p;
+    };
+
+    const displayDataInHTML = (data) => {
+      const pre = document.createElement('pre');
+      pre.appendChild(createTextNode(data));
+      outputElement.appendChild(pre);
+    };
+
+    const displayTurmaDataInHTML = (turma) => {
+      const turmaInfo = `
+        Identificação da Turma: ${turma.identificacao}
+        Professor: ${turma.professor.nome}
+        Área do Professor: ${turma.professor.area}
+        Telefone do Professor: ${turma.professor.telefone}
+        Alunos:
+        ${turma.alunos.map(aluno => `
+          - Nome: ${aluno.nome}
+            Matrícula: ${aluno.matricula}`).join('\n')}
+      `;
+      displayDataInHTML(turmaInfo);
+    };
+
+    // Exibição dos dados das Turmas na página HTML
+
+    displayDataInHTML('--- Turma 1 ---');
+    displayTurmaDataInHTML(turma1);
+    displayDataInHTML('--- Turma 2 ---');
+    displayTurmaDataInHTML(turma2);
+  </script>
+</body>
+</html>
